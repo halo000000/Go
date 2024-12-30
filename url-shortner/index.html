@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shortner</title>
+    <script src="./static/htmx.js"></script>
+
+</head>
+<body>
+    <div class="notification-card" id="notification-card">
+        <img src="/static/bell-with-cancellation-stroke.png" width="20" alt="bell with cancellation stroke" id="close-notification">
+        <p id="notification-message">text coped to clip-board</p>
+        <!-- <button id="close-notification">Close</button> -->
+    </div>
+    
+
+    
+    <form hx-post="/shorten/" hx-target="#shortened-url" hx-swap="innerText" >
+        <label for="url">Enter URL to shorten:</label>
+        <input type="url" id="url" name="url"  required>
+        <button class="Shorten-btn">Shorten</button>
+    </form>
+
+
+<div class="url-contenar" id="copy-text">
+    <p id="shortened-url" >URL</p>
+    <img src="./static/clip-board.png" width="25" alt="clip board icon">
+</div>
+
+    <script>
+        document.getElementById('copy-text').addEventListener('click', function() {
+            const textToCopy = this.innerText;
+            navigator.clipboard.writeText(textToCopy).then(function() {
+                document.getElementById('notification-card').style.display = 'inline';
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        });
+        document.getElementById('notification-card').addEventListener('click', function() {
+        document.getElementById('notification-card').style.display = 'none';
+    });
+    </script>
+
+
+</body>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+    }
+    form {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+    input[type="url"] {
+        width: 93%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .Shorten-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .Shorten-btn:hover {
+        background-color: #0056b3;
+    }
+    .url-contenar{
+        display: flex ;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        width: 20%;
+        padding: 15px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-top: 20px;
+        background: #fff;
+        
+    }
+    #shortened-url,img{
+        padding: 0;
+        margin: 0;
+        
+    }
+    #shortened-url{
+        font-size: 10pt;
+    }
+    /* notification */
+    .notification-card {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        gap: 2px;
+        cursor: pointer;
+
+    }
+    .notification-card p {
+        line-height: 1vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    #close-notification{
+        display: inline;
+        position: relative;
+        top: 3px;
+        
+
+    }
+    #notification-message{
+        display: inline;
+    }
+</style>
+
+
+</html>
+
+
